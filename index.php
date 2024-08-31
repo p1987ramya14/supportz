@@ -3,7 +3,7 @@
 ob_start();
 
 // Define the base Amazon URL
-$baseAmazonUrl = 'https://www.amazon.com/s?k=designer+curtain+rod&crid=3R5TGDWU7W3U&sprefix=designer+curtain+%2Caps%2C1089&ref=nb_sb_noss_2';
+$baseAmazonUrl = 'https://www.amazon.com/gp/product/B0CWS8MNW1/ref=as_li_tl?th=1';
 
 // Check if the 'referrer' query parameter is present and sanitize it
 if (isset($_GET['referrer']) && !empty($_GET['referrer'])) {
