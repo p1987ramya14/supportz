@@ -1,7 +1,4 @@
 <?php
-// Start output buffering to prevent "headers already sent" errors
-ob_start();
-
 // Define the base Amazon URL
 $baseAmazonUrl = 'https://www.amazon.com/gp/product/B0CWS8MNW1/ref=as_li_tl?th=1';
 
@@ -16,15 +13,8 @@ if (isset($_GET['referrer']) && !empty($_GET['referrer'])) {
     $newPageUrl = $baseAmazonUrl;
 }
 
-// Send a 301 Moved Permanently status code
+// Send a 301 Moved Permanently status code and redirect
 header('HTTP/1.1 301 Moved Permanently');
-
-// Redirect to the Amazon URL (with tracking info if available)
 header('Location: ' . $newPageUrl);
-
-// End output buffering and flush the output
-ob_end_flush();
-
-// Stop further execution
 exit();
 ?>
