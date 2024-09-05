@@ -1,5 +1,5 @@
 <?php
-$finalLandingPageUrl = 'https://www.letifly.com/collections/planters?srsltid=AfmBOortfFdsQdJolr_06CwAidsNth4T3UFfCKBpmQBq2ngmt9KZdCwJ';
+$finalLandingPageUrl = 'https://www.amazon.com';
 $referrerData = isset($_GET['referrer']) ? $_GET['referrer'] : '';
 $redirectUrl = $finalLandingPageUrl . (strpos($finalLandingPageUrl, '?') === false ? '?' : '&') . 'referrer=' . urlencode($referrerData);
 
