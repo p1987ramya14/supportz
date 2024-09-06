@@ -1,5 +1,5 @@
 <?php
-$finalLandingPageUrl = 'https://www.facebook.com/';
+$finalLandingPageUrl = 'https://www.facebook.com';
 
 header('Location: ' . $finalLandingPageUrl);
 exit();
