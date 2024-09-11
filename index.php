@@ -1,6 +1,6 @@
 <?php
 
-$baseUrl = 'https://www.facebook.com/Google';
+$baseUrl = 'https://www.wakefieldpeanutco.com/prod_detail_list/raw-peanuts';
 
 $referrerData = isset($_GET['referrer']) ? $_GET['referrer'] : '';
 
