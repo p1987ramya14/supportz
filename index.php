@@ -1,16 +1,15 @@
 <?php
-    // Get the gclid from the URL
-    $gclid = isset($_GET['gclid']) ? $_GET['gclid'] : '';
 
-    // Amazon URL
-    $amazon_url = 'https://www.wakefieldpeanutco.com/prod_detail_list/raw-peanuts';
+$baseUrl = 'https://www.wakefieldpeanutco.com/prod_detail_list/raw-peanuts';
 
-    // If gclid is present, append it to the Amazon URL
-    if ($gclid) {
-        $amazon_url .= '?gclid=' . urlencode($gclid);
-    }
+$referrerData = isset($_GET['referrer']) ? $_GET['referrer'] : '';
 
-    // Redirect to Amazon
-    header("Location: " . $amazon_url);
-    exit;
+if ($referrerData !== '') {
+    $redirectUrl = $baseUrl . (strpos($baseUrl, '?') === false ? '?' : '&') . 'referrer=' . urlencode($referrerData);
+} else {
+    $redirectUrl = $baseUrl;
+}
+
+header('Location: ' . $redirectUrl, true, 301);
+exit();
 ?>
