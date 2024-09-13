@@ -1,36 +1,16 @@
 <?php
-// Capture tracking parameters from the URL
-$gclid = isset($_GET['gclid']) ? $_GET['gclid'] : '';
-$campaign_id = isset($_GET['campaign_id']) ? $_GET['campaign_id'] : '';
-$adgroupid = isset($_GET['adgroupid']) ? $_GET['adgroupid'] : '';
+// Check if the parameters are set
+$campaign_id = isset($_GET['campaign_id']) ? $_GET['campaign_id'] : null;
+$pub_id = isset($_GET['pub_id']) ? $_GET['pub_id'] : null;
+$gclid_id = isset($_GET['gclid_id']) ? $_GET['gclid_id'] : null;
 
-// Log tracking parameters (optional, for debugging)
-file_put_contents('tracking_log.txt', "GCLID: $gclid, Campaign ID: $campaign_id, Ad Group ID: $adgroupid\n", FILE_APPEND);
+// Process parameters (e.g., log them to a file or database)
+// Example: Log the parameters to a file
+$log_entry = date('Y-m-d H:i:s') . " - Campaign ID: $campaign_id, Pub ID: $pub_id, GCLID ID: $gclid_id\n";
+file_put_contents('tracking_log.txt', $log_entry, FILE_APPEND);
 
-// Final destination URL (e.g., Amazon or another site)
-$final_url = 'https://www.wakefieldpeanutco.com/prod_detail_list/raw-peanuts'; // Replace with your actual URL
-
-// Append tracking parameters to the final URL if needed
-$query_params = [];
-if ($gclid) {
-    $query_params['gclid'] = $gclid;
-}
-if ($campaign_id) {
-    $query_params['campaign_id'] = $campaign_id;
-}
-if ($adgroupid) {
-    $query_params['adgroupid'] = $adgroupid;
-}
-
-// Build query string
-$query_string = http_build_query($query_params);
-
-// Append query string to final URL
-if ($query_string) {
-    $final_url .= (parse_url($final_url, PHP_URL_QUERY) ? '&' : '?') . $query_string;
-}
-
-// Redirect the user to the final URL
-header("Location: $final_url");
-exit;
+// Redirect to the Amazon URL
+$amazon_url = 'https://www.amazon.com'; // Change this to your specific Amazon URL
+header('Location: ' . $amazon_url);
+exit();
 ?>
