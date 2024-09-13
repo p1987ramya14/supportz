@@ -10,7 +10,7 @@ $log_entry = date('Y-m-d H:i:s') . " - Campaign ID: $campaign_id, Pub ID: $pub_i
 file_put_contents('tracking_log.txt', $log_entry, FILE_APPEND);
 
 // Redirect to the Amazon URL
-$amazon_url = 'https://www.amazon.com'; // Change this to your specific Amazon URL
+$amazon_url = 'https://www.amazon.com/deals'; 
 header('Location: ' . $amazon_url);
 exit();
 ?>
